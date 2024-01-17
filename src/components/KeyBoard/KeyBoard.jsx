@@ -2,16 +2,16 @@ import styled from "styled-components";
 import Key from "./Key";
 
 const KeyBoardContainer = styled.div`
-  width: 700px;
+  max-width: 767px;
   height: 300px;
-  margin-top: 60px;
+  margin-top: 34px;
+  display: flex;
+  flex-direction: column;
 `;
 const LineKeyBoard = styled.div`
-  flex: 33%;
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  margin: 5px;
+  justify-content: stretch;
 `;
 
 function KeyBoard() {

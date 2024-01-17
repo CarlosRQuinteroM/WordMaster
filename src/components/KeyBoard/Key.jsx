@@ -4,18 +4,26 @@ import { AppContext } from "../../App";
 import { useContext } from "react";
 
 const KeysBoard = styled.div`
-  width: 100px;
+  width: 70px;
   height: 70px;
-  margin: 5px;
+  align-items: center;
+  background-color: #dce1ed;
+  color: #414a5e !important;
+  border: 2px solid transparent;
   border-radius: 4px;
-  display: grid;
-  place-items: center;
-  font-size: 20px;
-  background-color: grey;
-  color: white;
-  font-family: Arial, Helvetica, sans-serif;
+  color: inherit;
   cursor: pointer;
-  transition: width 0.3s ease;
+  user-select: none;
+  display: flex;
+  flex: 1 1;
+  font-size: 17px;
+  font-weight: 700;
+  justify-content: center;
+  margin: 3px;
+  min-height: 46px;
+  padding: 3px;
+  text-decoration: inherit;
+  text-transform: capitalize;
 
   &:hover {
     transform: scale(1.05);
