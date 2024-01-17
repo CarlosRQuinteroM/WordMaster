@@ -7,6 +7,32 @@ import { boardDefault } from "./words";
 
 export const AppContext = createContext();
 
+const getRandomWord = async (length) => {
+  try {
+    const response = await fetch(
+      `https://random-word-api.herokuapp.com/word?length=${length}&lang=en`
+    );
+    const data = await response.json();
+    return data[0].toUpperCase();
+  } catch (error) {
+    console.error("Error al obtener la palabra aleatoria", error);
+    throw error;
+  }
+};
+
+const isValidWord = async (word) => {
+  try {
+    const response = await fetch(
+      `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`
+    );
+    const data = await response.json();
+    return response.ok && data.length > 0;
+  } catch (error) {
+    console.error("Error al verificar la palabra", error);
+    throw error;
+  }
+};
+
 function App() {
   const [board, setBoard] = useState(boardDefault);
   const [currentAttemp, setCurrentAttemp] = useState({
@@ -16,30 +42,53 @@ function App() {
   const [winword, setWinword] = useState("");
   const [numColumns, setNumColumns] = useState(5);
 
-  const winnerWord = async () => {
-    try {
-      const response = await fetch(
-        `https://random-word-api.herokuapp.com/word?length=${numColumns}`
-      );
-      const data = await response.json();
-
-      setWinword(data[0].toUpperCase());
-    } catch (error) {
-      console.error("Error al obtener la palabra aleatoria", error);
-    }
-  };
-
   useEffect(() => {
+    const winnerWord = async () => {
+      let validWord = false;
+      let newWord = "";
+      let attempts = 0;
+      const maxAttempts = 10;
+
+      while (!validWord && attempts < maxAttempts) {
+        try {
+          newWord = await getRandomWord(numColumns);
+          validWord = await isValidWord(newWord);
+          attempts++;
+        } catch (error) {
+          alert(error);
+        }
+      }
+
+      if (!validWord) {
+        alert("Could not find a valid word after several attempts");
+        console.error("Could not find a valid word after several attempts");
+      }
+
+      setWinword(newWord);
+    };
+
     winnerWord();
   }, [numColumns]);
 
-  const onEnter = () => {
+  const onEnter = async () => {
     if (currentAttemp.letterPosition !== numColumns) return;
-    setCurrentAttemp({
-      attempt: currentAttemp.attempt + 1,
-      letterPosition: 0,
-    });
+    const wordToCheck = board[currentAttemp.attempt].join("").toLowerCase();
+
+    try {
+      const isValid = await isValidWord(wordToCheck);
+      if (isValid) {
+        setCurrentAttemp({
+          attempt: currentAttemp.attempt + 1,
+          letterPosition: 0,
+        });
+      } else {
+        alert(`La palabra "${wordToCheck}" no es válida`);
+      }
+    } catch (error) {
+      alert("Error al verificar la palabra", error);
+    }
   };
+
   const onDelete = () => {
     if (currentAttemp.letterPosition === 0) return;
     const newBoard = [...board];
@@ -50,6 +99,7 @@ function App() {
       letterPosition: currentAttemp.letterPosition - 1,
     });
   };
+
   const onSolectLetter = (keyValue) => {
     if (currentAttemp.letterPosition > numColumns - 1) return;
     const newBoard = [...board];
@@ -81,7 +131,7 @@ function App() {
           <Header />
           <Board numRows={6} numColumns={numColumns} />
           <KeyBoard />
-          {winword}
+          <h1>{winword}</h1>
         </AppContext.Provider>
       </div>
     </>

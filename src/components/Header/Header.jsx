@@ -10,7 +10,7 @@ import Settings from "./Settings";
 
 const StyledAppBar = styled(AppBar)`
   justify-content: center;
-  max-width: 50vw;
+  max-width: 760px;
 `;
 
 const StyledToolbar = styled(Toolbar)`
@@ -26,11 +26,19 @@ const StyledModalContent = styled.div`
   padding: 20px;
   color: gray;
 `;
-
+const StyledButtomIcom = styled(IconButton)`
+  transition: 0.8s !important;
+  &:hover {
+    background-color: #C7E6C8 !important;
+    color: #6AB96D !important;
+    transform: scale(1.1) !important;
+  }
+`;
 const Header = () => {
   const customStyles = {
-    backgroundColor: "white",
+    backgroundColor: "transparent",
     color: "gray",
+    border: "none",
   };
 
   const [openModal, setOpenModal] = useState(false);
@@ -47,25 +55,22 @@ const Header = () => {
   };
 
   return (
-    <StyledAppBar style={customStyles} position="static">
+    <StyledAppBar style={customStyles} elevation={0} position="static">
       <StyledToolbar>
-        <IconButton
-          color="inherit"
-          onClick={() => handleOpenModal(<Statistic />)}
-        >
-          <SignalCellularAltIcon />
-        </IconButton>
+        <StyledButtomIcom onClick={() => handleOpenModal(<Statistic />)}>
+          <SignalCellularAltIcon style={{ fontSize: "30px" }} />
+        </StyledButtomIcom>
 
-        <IconButton
+        <StyledButtomIcom
           color="inherit"
           onClick={() => handleOpenModal(<Settings />)}
         >
-          <SettingsIcon />
-        </IconButton>
+          <SettingsIcon style={{ fontSize: "30px" }} />
+        </StyledButtomIcom>
 
-        <IconButton color="inherit" onClick={() => handleOpenModal(<Help />)}>
-          <HelpIcon />
-        </IconButton>
+        <StyledButtomIcom color="inherit" onClick={() => handleOpenModal(<Help />)}>
+          <HelpIcon style={{ fontSize: "30px" }} />
+        </StyledButtomIcom>
         {/* Modal */}
         <Modal open={openModal} onClose={handleCloseModal}>
           <StyledModalContent>{selectedIcon}</StyledModalContent>

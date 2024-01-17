@@ -51,8 +51,8 @@ const StyledNumber = styled.div`
   text-overflow: ellipsis;
   padding: 6px 14px;
   border-radius: 5px;
-  background-color: ${(props) => (props.isSelected ? "#528d4e" : "#e9edf7")};
-  color: ${(props) => (props.isSelected ? "#e9edf7" : "gray")};
+  background-color: ${(props) => (props.isselected ? "#528d4e" : "#e9edf7")};
+  color: ${(props) => (props.isselected ? "#e9edf7" : "gray")};
   transition: 0.2s;
   cursor: pointer;
 
@@ -80,7 +80,7 @@ function Settings() {
             <StyledNumber
               key={index + 4}
               onClick={() => handleClick(index + 4)}
-              isSelected={numColumns === index + 4}
+              isselected={numColumns === index + 4}
             >
               {index + 4}
             </StyledNumber>
