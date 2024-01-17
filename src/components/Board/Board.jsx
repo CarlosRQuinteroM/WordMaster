@@ -4,9 +4,6 @@ import Letter from "./Letter";
 import { createBoard } from "../../words";
 
 const BoardContainer = styled.div`
-  width: 450px;
-  height: 550px;
-  border: 1px solid black;
   display: flex;
   flex-direction: column;
 `;

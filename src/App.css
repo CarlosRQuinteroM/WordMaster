@@ -1,6 +1,6 @@
 .App {
   text-align: center;
-  background-color: #121212;
+  background-color: #ffffff;
   width: 100vw;
   height: 100vh;
   display: flex; 
@@ -27,5 +27,4 @@ body {
   --color2: #8b887d;
   --color3: #a35868;
   --color4: #3d424b;
-  --color5: #3d424b;
-} */
+  --color5: #3d424b; */
