@@ -8,14 +8,7 @@ const LetterComtainer = styled.div`
   height: 100%;
   border: 1px solid grey;
   border-radius: 10px;
-  background-color: ${({ dynamicId }) =>
-    dynamicId === "winner"
-      ? "#528d4e"
-      : dynamicId === "almost"
-      ? "#b49f39"
-      : dynamicId === "none"
-      ? "#838383"
-      : ""};
+  background-color: ${({ backgroundgame }) => backgroundgame};
   margin: 5px;
   display: grid;
   place-items: center;
@@ -33,11 +26,22 @@ function Letter({ letterPosition, attempValue }) {
   const almost = !correct && letter !== "" && winword.includes(letter);
   const none = !correct && !almost;
 
-  const dyId =
-    currentAttemp.attempt > attempValue &&
-    (correct ? "winner" : almost ? "almost" : none ? "none" : "");
+  let backgroundColor = "";
 
-  return <LetterComtainer dynamicId={dyId}>{letter}</LetterComtainer>;
+  if (currentAttemp.attempt > attempValue) {
+    if (correct) {
+      backgroundColor = "#528d4e";
+    } else if (almost) {
+      backgroundColor = "#b49f39";
+    } else if (none) {
+      backgroundColor = "#838383";
+    }
+  }
+  return (
+    <LetterComtainer $backgroundgame={backgroundColor}>
+      {letter}
+    </LetterComtainer>
+  );
 }
 
 export default Letter;

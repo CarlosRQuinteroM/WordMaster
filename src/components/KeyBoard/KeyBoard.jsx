@@ -5,7 +5,6 @@ const KeyBoardContainer = styled.div`
   width: 700px;
   height: 300px;
   margin-top: 60px;
-  border: 1px solid;
 `;
 const LineKeyBoard = styled.div`
   flex: 33%;

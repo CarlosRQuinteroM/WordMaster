@@ -2,7 +2,7 @@ import { createContext, useState, useEffect } from "react";
 import "./App.css";
 import Board from "./components/Board/Board";
 import KeyBoard from "./components/KeyBoard/KeyBoard";
-import Navbar from "./components/NavBar/NavBar";
+import Header from "./components/Header/Header";
 import { boardDefault } from "./words";
 
 export const AppContext = createContext();
@@ -14,7 +14,7 @@ function App() {
     letterPosition: 0,
   });
   const [winword, setWinword] = useState("");
-  const [numColumns] = useState(5);
+  const [numColumns, setNumColumns] = useState(5);
 
   const winnerWord = async () => {
     try {
@@ -31,7 +31,7 @@ function App() {
 
   useEffect(() => {
     winnerWord();
-  }, []);
+  }, [numColumns]);
 
   const onEnter = () => {
     if (currentAttemp.letterPosition !== numColumns) return;
@@ -64,19 +64,21 @@ function App() {
   return (
     <>
       <div className="App">
-        <Navbar />
         <AppContext.Provider
           value={{
             board,
             setBoard,
             currentAttemp,
             winword,
+            numColumns,
+            setNumColumns,
             setCurrentAttemp,
             onSolectLetter,
             onDelete,
             onEnter,
           }}
         >
+          <Header />
           <Board numRows={6} numColumns={numColumns} />
           <KeyBoard />
           {winword}
