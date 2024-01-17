@@ -13,13 +13,13 @@ function App() {
     attempt: 0,
     letterPosition: 0,
   });
-
   const [winword, setWinword] = useState("");
+  const [numColumns] = useState(5);
 
   const winnerWord = async () => {
     try {
       const response = await fetch(
-        "https://random-word-api.herokuapp.com/word?length=5"
+        `https://random-word-api.herokuapp.com/word?length=${numColumns}`
       );
       const data = await response.json();
 
@@ -34,7 +34,7 @@ function App() {
   }, []);
 
   const onEnter = () => {
-    if (currentAttemp.letterPosition !== 5) return;
+    if (currentAttemp.letterPosition !== numColumns) return;
     setCurrentAttemp({
       attempt: currentAttemp.attempt + 1,
       letterPosition: 0,
@@ -51,7 +51,7 @@ function App() {
     });
   };
   const onSolectLetter = (keyValue) => {
-    if (currentAttemp.letterPosition > 4) return;
+    if (currentAttemp.letterPosition > numColumns - 1) return;
     const newBoard = [...board];
     newBoard[currentAttemp.attempt][currentAttemp.letterPosition] = keyValue;
     setBoard(newBoard);
@@ -77,7 +77,7 @@ function App() {
             onEnter,
           }}
         >
-          <Board />
+          <Board numRows={6} numColumns={numColumns} />
           <KeyBoard />
           {winword}
         </AppContext.Provider>

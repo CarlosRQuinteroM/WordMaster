@@ -1,5 +1,7 @@
 import styled from "styled-components";
+import PropTypes from "prop-types";
 import Letter from "./Letter";
+import { createBoard } from "../../words";
 
 const BoardContainer = styled.div`
   width: 450px;
@@ -16,54 +18,28 @@ const RowContainer = styled.div`
   margin: 5px;
 `;
 
-function Board() {
- 
+function Board({ numRows, numColumns }) {
+  const board = createBoard(numRows, numColumns);
   return (
     <BoardContainer>
-      <RowContainer>
-        <Letter letterPosition={0} attempValue={0} />
-        <Letter letterPosition={1} attempValue={0} />
-        <Letter letterPosition={2} attempValue={0} />
-        <Letter letterPosition={3} attempValue={0} />
-        <Letter letterPosition={4} attempValue={0} />
-      </RowContainer>
-      <RowContainer>
-        <Letter letterPosition={0} attempValue={1} />
-        <Letter letterPosition={1} attempValue={1} />
-        <Letter letterPosition={2} attempValue={1} />
-        <Letter letterPosition={3} attempValue={1} />
-        <Letter letterPosition={4} attempValue={1} />
-      </RowContainer>
-      <RowContainer>
-        <Letter letterPosition={0} attempValue={2} />
-        <Letter letterPosition={1} attempValue={2} />
-        <Letter letterPosition={2} attempValue={2} />
-        <Letter letterPosition={3} attempValue={2} />
-        <Letter letterPosition={4} attempValue={2} />
-      </RowContainer>
-      <RowContainer>
-        <Letter letterPosition={0} attempValue={3} />
-        <Letter letterPosition={1} attempValue={3} />
-        <Letter letterPosition={2} attempValue={3} />
-        <Letter letterPosition={3} attempValue={3} />
-        <Letter letterPosition={4} attempValue={3} />
-      </RowContainer>
-      <RowContainer>
-        <Letter letterPosition={0} attempValue={4} />
-        <Letter letterPosition={1} attempValue={4} />
-        <Letter letterPosition={2} attempValue={4} />
-        <Letter letterPosition={3} attempValue={4} />
-        <Letter letterPosition={4} attempValue={4} />
-      </RowContainer>
-      <RowContainer>
-        <Letter letterPosition={0} attempValue={5} />
-        <Letter letterPosition={1} attempValue={5} />
-        <Letter letterPosition={2} attempValue={5} />
-        <Letter letterPosition={3} attempValue={5} />
-        <Letter letterPosition={4} attempValue={5} />
-      </RowContainer>
+      {board.map((row, rowIndex) => (
+        <RowContainer key={rowIndex}>
+          {row.map((_, colIndex) => (
+            <Letter
+              key={colIndex}
+              letterPosition={colIndex}
+              attempValue={rowIndex}
+            />
+          ))}
+        </RowContainer>
+      ))}
     </BoardContainer>
   );
 }
+
+Board.propTypes = {
+  numRows: PropTypes.number.isRequired,
+  numColumns: PropTypes.number.isRequired,
+};
 
 export default Board;
