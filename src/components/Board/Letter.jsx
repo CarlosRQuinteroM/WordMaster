@@ -38,9 +38,7 @@ function Letter({ letterPosition, attempValue }) {
     }
   }
   return (
-    <LetterComtainer $backgroundgame={backgroundColor}>
-      {letter}
-    </LetterComtainer>
+    <LetterComtainer backgroundgame={backgroundColor}>{letter}</LetterComtainer>
   );
 }
 

@@ -8,43 +8,81 @@ const StyledSettingsContainer = styled.div`
   gap: 20px;
   padding: 20px;
   justify-self: center;
-  & h2 {
+
+  & .top {
+    color: #2e3239;
+    font-size: 18px;
+    font-weight: 700;
+    border-radius: 7px;
+    display: flex;
+    min-height: 38px;
+    padding: 0 25px;
+    text-align: center;
+    background-color: #e5ecff;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
   }
 `;
 
 const StyledSettingsItem = styled.div`
-  border: 1px solid #ccc;
-  padding: 10px;
+  & #main_title {
+    color: #2e3239;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
 `;
 
 const StyledNumberGrid = styled.div`
+  margin-bottom: 10px;
+  justify-content: center;
   display: flex;
+  flex-wrap: wrap;
 `;
 
 const StyledNumber = styled.div`
-  border: 1px solid #ccc;
-  padding: 10px;
-  margin: 5px;
-  curs`;
+  position: relative;
+  display: block;
+  overflow: hidden;
+  cursor: pointer;
+  text-align: center;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding: 6px 14px;
+  border-radius: 5px;
+  background-color: ${(props) => (props.isSelected ? "#528d4e" : "#e9edf7")};
+  color: ${(props) => (props.isSelected ? "#e9edf7" : "gray")};
+  transition: 0.2s;
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(1.05);
+    background-color: #528d4e;
+    color: #e9edf7;
+  }
+`;
 
 function Settings() {
-  const { setNumColumns } = useContext(AppContext);
+  const { numColumns, setNumColumns } = useContext(AppContext);
+
   const handleClick = (number) => {
     setNumColumns(number);
   };
 
   return (
     <StyledSettingsContainer>
-      <h2>Settings</h2>
+      <div className="top">Settings</div>
       <StyledSettingsItem>
-        <h3>Word size</h3>
+        <div id="main_title">Number of Letters</div>
         <StyledNumberGrid>
-          {Array.from({ length: 6 }, (_, index) => (
+          {Array.from({ length: 8 }, (_, index) => (
             <StyledNumber
-              key={index + 5}
-              onClick={() => handleClick(index + 5)}
+              key={index + 4}
+              onClick={() => handleClick(index + 4)}
+              isSelected={numColumns === index + 4}
             >
-              {index + 5}
+              {index + 4}
             </StyledNumber>
           ))}
         </StyledNumberGrid>
