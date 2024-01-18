@@ -1,5 +1,5 @@
-/* eslint-disable react/prop-types */
 import { useContext } from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import { AppContext } from "../../App";
 
@@ -30,6 +30,12 @@ function Letter({ letterPosition, attempValue }) {
   const almost = !correct && letter !== "" && winword.includes(letter);
   const none = !correct && !almost;
 
+  // useEffect(() => {
+  //   if (letter !== "") {
+  //     setKeyStatus((prev)=> [...prev, letter]);
+  //   }
+  // }, [currentAttemp.attempt]);
+
   let backgroundColor = "";
 
   if (currentAttemp.attempt > attempValue) {
@@ -47,5 +53,8 @@ function Letter({ letterPosition, attempValue }) {
     <LetterComtainer backgroundgame={backgroundColor}>{letter}</LetterComtainer>
   );
 }
-
+Letter.propTypes = {
+  letterPosition: PropTypes.number.isRequired,
+  attempValue: PropTypes.number.isRequired,
+};
 export default Letter;

@@ -4,6 +4,7 @@ import Board from "./components/Board/Board";
 import KeyBoard from "./components/KeyBoard/KeyBoard";
 import Header from "./components/Header/Header";
 import { boardDefault } from "./words";
+import GameFinish from "./components/GameFinish/GameFinish";
 
 export const AppContext = createContext();
 
@@ -41,6 +42,11 @@ function App() {
   });
   const [winword, setWinword] = useState("");
   const [wordLength, setWordLength] = useState(5);
+  const [keyStatus, setKeyStatus] = useState([]);
+  const [finishGame, setFinishGame] = useState({
+    finishGame: false,
+    guessedWord: false,
+  });
 
   useEffect(() => {
     const winnerWord = async () => {
@@ -87,6 +93,14 @@ function App() {
     } catch (error) {
       alert("Error al verificar la palabra", error);
     }
+    console.log("wordToCheck:", wordToCheck);
+    console.log("winword:", winword);
+
+    if (wordToCheck.toUpperCase() === winword.toUpperCase()) {
+      console.log("winner");
+      setFinishGame({ finishGame: true, guessedWord: true });
+      return;
+    }
   };
 
   const onDelete = () => {
@@ -127,11 +141,15 @@ function App() {
             onSolectLetter,
             onDelete,
             onEnter,
+            keyStatus,
+            setKeyStatus,
+            finishGame,
+            setFinishGame,
           }}
         >
           <Header />
           <Board numRows={6} wordLength={wordLength} />
-          <KeyBoard />
+          {finishGame.finishGame ? <GameFinish /> : <KeyBoard />}
           <h1>{winword}</h1>
         </AppContext.Provider>
       </div>

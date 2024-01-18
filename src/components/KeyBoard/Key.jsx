@@ -1,7 +1,7 @@
+import { useContext } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { AppContext } from "../../App";
-import { useContext } from "react";
 
 const KeysBoard = styled.div`
   width: 70px;
@@ -32,7 +32,6 @@ const KeysBoard = styled.div`
 
 function Key({ keyValue }) {
   const { onSolectLetter, onDelete, onEnter } = useContext(AppContext);
-  
 
   const selectLetter = () => {
     if (keyValue === "ENTER") {
