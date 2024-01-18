@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { AppContext } from "../../App";
 import { INVALID_WORD, WINNER, LOSER } from "../../utils";
 
+
 const StyledModalContent = styled.div`
   position: fixed;
   top: 20%;
@@ -20,7 +21,9 @@ const StyledModalContent = styled.div`
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   text-align: center;
+  }
 `;
+
 
 const Text = styled.div`
   font-size: 24px;
@@ -45,6 +48,7 @@ const RestartButton = styled.button`
 
 function StatusWordModal({ status }) {
   const { setRestartGame } = useContext(AppContext);
+
   function getStatus() {
     switch (status) {
       case INVALID_WORD:
@@ -55,15 +59,17 @@ function StatusWordModal({ status }) {
         );
       case WINNER:
         return (
-          <StyledModalContent>
-            <Text>Winner Winner Chicken Dinner</Text>
-            <RestartButton
-              colorstatus="#4caf50"
-              onClick={() => setRestartGame(true)}
-            >
-              Restart Game
-            </RestartButton>
-          </StyledModalContent>
+          <>
+            <StyledModalContent>
+              <Text>Winner Winner Chicken Dinner</Text>
+              <RestartButton
+                colorstatus="#4caf50"
+                onClick={() => setRestartGame(true)}
+              >
+                Restart Game
+              </RestartButton>
+            </StyledModalContent>
+          </>
         );
       case LOSER:
         return (

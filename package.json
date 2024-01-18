@@ -15,7 +15,6 @@
     "@mui/icons-material": "^5.14.5",
     "@mui/material": "^5.15.5",
     "@mui/styled-engine-sc": "^6.0.0-alpha.12",
-    "canvas-confetti": "^1.9.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "style-components": "^0.1.0",
