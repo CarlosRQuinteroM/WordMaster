@@ -7,6 +7,7 @@ import { createBoard, getRandomWord, isValidWord } from "./words";
 import { Modal } from "@mui/material";
 import StatusWordModal from "./components/Modals/StatusWordModal";
 import { INVALID_WORD, ERROR, WINNER, LOSER } from "./utils";
+import GameFinish from "./components/GameFinish/GameFinish";
 
 export const AppContext = createContext();
 
@@ -161,7 +162,7 @@ function App() {
         >
           <Header />
           <MemoizedBoard numRows={6} wordLength={wordLength} />
-          {finishGame.finishGame ? "" : <MemoizedKeyBoard />}
+          {finishGame.finishGame ? <GameFinish /> : <MemoizedKeyBoard />}
           <h1>{winword}</h1>
           <Modal open={isOpen} onClose={() => setIsOpen(false)}>
             <StatusWordModal status={modalStatus.toString()}></StatusWordModal>

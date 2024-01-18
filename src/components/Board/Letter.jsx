@@ -5,14 +5,15 @@ import { AppContext } from "../../App";
 
 const LetterComtainer = styled.div`
   flex: 33%;
-  width: 60px;
-  height: 60px;
-  border: 2px solid
+  width: 65px;
+  height: 65px;
+  border: 3px solid
     ${({ backgroundgame }) =>
       backgroundgame === "" ? "#dee1e9" : "transparent"};
-  border-radius: 5px;
-  background-color: ${({ backgroundgame }) => backgroundgame};
-  margin: 5px;
+  border-radius: 6px;
+  background-color: ${({ backgroundgame }) =>
+    backgroundgame !== "" ? backgroundgame : "#fbfcff"};
+  margin-left: 5px;
   display: grid;
   place-items: center;
   font-size: 30px;
@@ -45,8 +46,6 @@ function Letter({ letterPosition, attempValue }) {
       backgroundColor = "#f3c237";
     } else if (none) {
       backgroundColor = "#a4aec4";
-    } else {
-      backgroundColor = "#fbfcff";
     }
   }
   return (
