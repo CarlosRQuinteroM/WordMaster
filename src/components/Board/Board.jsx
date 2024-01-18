@@ -15,8 +15,8 @@ const RowContainer = styled.div`
   margin: 5px;
 `;
 
-function Board({ numRows, numColumns }) {
-  const board = createBoard(numRows, numColumns);
+function Board({ numRows, wordLength }) {
+  const board = createBoard(numRows, wordLength);
   return (
     <BoardContainer>
       {board.map((row, rowIndex) => (
@@ -36,7 +36,7 @@ function Board({ numRows, numColumns }) {
 
 Board.propTypes = {
   numRows: PropTypes.number.isRequired,
-  numColumns: PropTypes.number.isRequired,
+  wordLength: PropTypes.number.isRequired,
 };
 
 export default Board;

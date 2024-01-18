@@ -64,10 +64,10 @@ const StyledNumber = styled.div`
 `;
 
 function Settings() {
-  const { numColumns, setNumColumns } = useContext(AppContext);
+  const { wordLength, setWordLength } = useContext(AppContext);
 
   const handleClick = (number) => {
-    setNumColumns(number);
+    setWordLength(number);
   };
 
   return (
@@ -80,7 +80,7 @@ function Settings() {
             <StyledNumber
               key={index + 4}
               onClick={() => handleClick(index + 4)}
-              isselected={numColumns === index + 4}
+              isselected={wordLength === index + 4}
             >
               {index + 4}
             </StyledNumber>

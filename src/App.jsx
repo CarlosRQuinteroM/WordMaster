@@ -40,7 +40,7 @@ function App() {
     letterPosition: 0,
   });
   const [winword, setWinword] = useState("");
-  const [numColumns, setNumColumns] = useState(5);
+  const [wordLength, setWordLength] = useState(5);
 
   useEffect(() => {
     const winnerWord = async () => {
@@ -51,7 +51,7 @@ function App() {
 
       while (!validWord && attempts < maxAttempts) {
         try {
-          newWord = await getRandomWord(numColumns);
+          newWord = await getRandomWord(wordLength);
           validWord = await isValidWord(newWord);
           attempts++;
         } catch (error) {
@@ -68,10 +68,10 @@ function App() {
     };
 
     winnerWord();
-  }, [numColumns]);
+  }, [wordLength]);
 
   const onEnter = async () => {
-    if (currentAttemp.letterPosition !== numColumns) return;
+    if (currentAttemp.letterPosition !== wordLength) return;
     const wordToCheck = board[currentAttemp.attempt].join("").toLowerCase();
 
     try {
@@ -99,9 +99,10 @@ function App() {
       letterPosition: currentAttemp.letterPosition - 1,
     });
   };
+  //wordLength
 
   const onSolectLetter = (keyValue) => {
-    if (currentAttemp.letterPosition > numColumns - 1) return;
+    if (currentAttemp.letterPosition > wordLength - 1) return;
     const newBoard = [...board];
     newBoard[currentAttemp.attempt][currentAttemp.letterPosition] = keyValue;
     setBoard(newBoard);
@@ -120,8 +121,8 @@ function App() {
             setBoard,
             currentAttemp,
             winword,
-            numColumns,
-            setNumColumns,
+            wordLength,
+            setWordLength,
             setCurrentAttemp,
             onSolectLetter,
             onDelete,
@@ -129,7 +130,7 @@ function App() {
           }}
         >
           <Header />
-          <Board numRows={6} numColumns={numColumns} />
+          <Board numRows={6} wordLength={wordLength} />
           <KeyBoard />
           <h1>{winword}</h1>
         </AppContext.Provider>

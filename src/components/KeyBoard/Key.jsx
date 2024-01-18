@@ -32,6 +32,7 @@ const KeysBoard = styled.div`
 
 function Key({ keyValue }) {
   const { onSolectLetter, onDelete, onEnter } = useContext(AppContext);
+  
 
   const selectLetter = () => {
     if (keyValue === "ENTER") {
