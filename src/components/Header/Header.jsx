@@ -18,19 +18,21 @@ const StyledToolbar = styled(Toolbar)`
 `;
 
 const StyledModalContent = styled.div`
-  position: absolute;
-  top: 15%;
+  position: fixed;
+  top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: white;
   padding: 20px;
   color: gray;
+  max-width: 80%;
 `;
+
 const StyledButtomIcom = styled(IconButton)`
   transition: 0.8s !important;
   &:hover {
-    background-color: #C7E6C8 !important;
-    color: #6AB96D !important;
+    background-color: #c7e6c8 !important;
+    color: #6ab96d !important;
     transform: scale(1.1) !important;
   }
 `;
@@ -68,10 +70,12 @@ const Header = () => {
           <SettingsIcon style={{ fontSize: "30px" }} />
         </StyledButtomIcom>
 
-        <StyledButtomIcom color="inherit" onClick={() => handleOpenModal(<Help />)}>
+        <StyledButtomIcom
+          color="inherit"
+          onClick={() => handleOpenModal(<Help />)}
+        >
           <HelpIcon style={{ fontSize: "30px" }} />
         </StyledButtomIcom>
-        {/* Modal */}
         <Modal open={openModal} onClose={handleCloseModal}>
           <StyledModalContent>{selectedIcon}</StyledModalContent>
         </Modal>
