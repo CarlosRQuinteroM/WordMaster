@@ -19,11 +19,11 @@ const StyledToolbar = styled(Toolbar)`
 
 const StyledModalContent = styled.div`
   position: fixed;
-  top: 40%;
+  top: 10%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%);
   background-color: white;
-  padding: 20px;
+  padding: 10px;
   color: gray;
   max-width: 80%;
 `;
@@ -57,30 +57,32 @@ const Header = () => {
   };
 
   return (
-    <StyledAppBar style={customStyles} elevation={0} position="static">
-      <StyledToolbar>
-        <StyledButtomIcom onClick={() => handleOpenModal(<Statistic />)}>
-          <SignalCellularAltIcon style={{ fontSize: "30px" }} />
-        </StyledButtomIcom>
+    <>
+      <StyledAppBar style={customStyles} elevation={0} position="static">
+        <StyledToolbar>
+          <StyledButtomIcom onClick={() => handleOpenModal(<Statistic />)}>
+            <SignalCellularAltIcon style={{ fontSize: "30px" }} />
+          </StyledButtomIcom>
 
-        <StyledButtomIcom
-          color="inherit"
-          onClick={() => handleOpenModal(<Settings />)}
-        >
-          <SettingsIcon style={{ fontSize: "30px" }} />
-        </StyledButtomIcom>
+          <StyledButtomIcom
+            color="inherit"
+            onClick={() => handleOpenModal(<Settings />)}
+          >
+            <SettingsIcon style={{ fontSize: "30px" }} />
+          </StyledButtomIcom>
 
-        <StyledButtomIcom
-          color="inherit"
-          onClick={() => handleOpenModal(<Help />)}
-        >
-          <HelpIcon style={{ fontSize: "30px" }} />
-        </StyledButtomIcom>
-        <Modal open={openModal} onClose={handleCloseModal}>
-          <StyledModalContent>{selectedIcon}</StyledModalContent>
-        </Modal>
-      </StyledToolbar>
-    </StyledAppBar>
+          <StyledButtomIcom
+            color="inherit"
+            onClick={() => handleOpenModal(<Help />)}
+          >
+            <HelpIcon style={{ fontSize: "30px" }} />
+          </StyledButtomIcom>
+        </StyledToolbar>
+      </StyledAppBar>
+      <Modal open={openModal} onClose={handleCloseModal}>
+        <StyledModalContent>{selectedIcon}</StyledModalContent>
+      </Modal>
+    </>
   );
 };
 
