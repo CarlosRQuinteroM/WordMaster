@@ -1,26 +1,33 @@
-import { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useCallback } from "react";
 import "./App.css";
 import Board from "./components/Board/Board";
 import KeyBoard from "./components/KeyBoard/KeyBoard";
 import Header from "./components/Header/Header";
-import { boardDefault, getRandomWord, isValidWord } from "./words";
-import GameFinish from "./components/GameFinish/GameFinish";
+import { createBoard, getRandomWord, isValidWord } from "./words";
+import { Modal } from "@mui/material";
+import StatusWordModal from "./components/Modals/StatusWordModal";
+import { INVALID_WORD, ERROR, WINNER, LOSER } from "./utils";
 
 export const AppContext = createContext();
 
 function App() {
-  const [board, setBoard] = useState(boardDefault);
+  const [wordLength, setWordLength] = useState(5);
+  const [board, setBoard] = useState(() => createBoard(6, wordLength));
   const [currentAttemp, setCurrentAttemp] = useState({
     attempt: 0,
     letterPosition: 0,
   });
   const [winword, setWinword] = useState("");
-  const [wordLength, setWordLength] = useState(5);
+
   const [keyStatus, setKeyStatus] = useState([]);
   const [finishGame, setFinishGame] = useState({
     finishGame: false,
     guessedWord: false,
   });
+  const [isOpen, setIsOpen] = useState(false);
+  const [modalStatus, setModalStatus] = useState(board);
+  // Restart Game
+  const [restartGame, setRestartGame] = useState(false);
 
   useEffect(() => {
     const winnerWord = async () => {
@@ -35,22 +42,32 @@ function App() {
           validWord = await isValidWord(newWord);
           attempts++;
         } catch (error) {
-          alert(error);
+          console.log(error);
         }
       }
 
       if (!validWord) {
-        alert("Could not find a valid word after several attempts");
-        console.error("Could not find a valid word after several attempts");
+        alert(
+          "Could not find a valid word after several attempts, try letter."
+        );
       }
-
       setWinword(newWord);
     };
-
     winnerWord();
-  }, [wordLength]);
 
-  const onEnter = async () => {
+    if (restartGame) {
+      setRestartGame(false);
+      setBoard(() => createBoard(6, wordLength));
+      setCurrentAttemp({ attempt: 0, letterPosition: 0 });
+      setWinword("");
+      setKeyStatus([]);
+      setFinishGame({ finishGame: false, guessedWord: false });
+      setIsOpen(false);
+      setModalStatus("");
+    }
+  }, [wordLength, restartGame]);
+
+  const onEnter = useCallback(async () => {
     if (currentAttemp.letterPosition !== wordLength) return;
     const wordToCheck = board[currentAttemp.attempt].join("").toLowerCase();
 
@@ -62,22 +79,36 @@ function App() {
           letterPosition: 0,
         });
       } else {
-        alert(`La palabra "${wordToCheck}" no es válida`);
+        setIsOpen(true);
+        setModalStatus(INVALID_WORD);
       }
     } catch (error) {
-      alert("Error al verificar la palabra", error);
+      setIsOpen(true);
+      setModalStatus(ERROR);
     }
-    console.log("wordToCheck:", wordToCheck);
-    console.log("winword:", winword);
-
+    // "Winner"
     if (wordToCheck.toUpperCase() === winword.toUpperCase()) {
-      console.log("winner");
+      setIsOpen(true);
       setFinishGame({ finishGame: true, guessedWord: true });
+      setModalStatus(WINNER);
       return;
     }
-  };
 
-  const onDelete = () => {
+    if (currentAttemp.attempt === 5) {
+      setIsOpen(true);
+      setFinishGame({ finishGame: true, guessedWord: false });
+      setModalStatus(LOSER);
+      return;
+    }
+  }, [
+    board,
+    currentAttemp.attempt,
+    currentAttemp.letterPosition,
+    winword,
+    wordLength,
+  ]);
+
+  const onDelete = useCallback(() => {
     if (currentAttemp.letterPosition === 0) return;
     const newBoard = [...board];
     newBoard[currentAttemp.attempt][currentAttemp.letterPosition - 1] = "";
@@ -86,19 +117,25 @@ function App() {
       ...currentAttemp,
       letterPosition: currentAttemp.letterPosition - 1,
     });
-  };
-  //wordLength
+  }, [board, currentAttemp, setBoard, setCurrentAttemp]);
 
-  const onSolectLetter = (keyValue) => {
-    if (currentAttemp.letterPosition > wordLength - 1) return;
-    const newBoard = [...board];
-    newBoard[currentAttemp.attempt][currentAttemp.letterPosition] = keyValue;
-    setBoard(newBoard);
-    setCurrentAttemp({
-      ...currentAttemp,
-      letterPosition: currentAttemp.letterPosition + 1,
-    });
-  };
+  const onSolectLetter = useCallback(
+    (keyValue) => {
+      if (currentAttemp.letterPosition > wordLength - 1) return;
+      const newBoard = [...board];
+      newBoard[currentAttemp.attempt][currentAttemp.letterPosition] = keyValue;
+      setBoard(newBoard);
+      setCurrentAttemp({
+        ...currentAttemp,
+        letterPosition: currentAttemp.letterPosition + 1,
+      });
+      // tu lógica
+    },
+    [board, currentAttemp, setBoard, setCurrentAttemp, wordLength]
+  );
+  //Utiliza React.memo para memorizar componentes funcionales y evitar que se vuelvan a renderizar innecesariamente.
+  const MemoizedBoard = React.memo(Board);
+  const MemoizedKeyBoard = React.memo(KeyBoard);
 
   return (
     <>
@@ -119,12 +156,16 @@ function App() {
             setKeyStatus,
             finishGame,
             setFinishGame,
+            setRestartGame,
           }}
         >
           <Header />
-          <Board numRows={6} wordLength={wordLength} />
-          {finishGame.finishGame ? <GameFinish /> : <KeyBoard />}
+          <MemoizedBoard numRows={6} wordLength={wordLength} />
+          {finishGame.finishGame ? "" : <MemoizedKeyBoard />}
           <h1>{winword}</h1>
+          <Modal open={isOpen} onClose={() => setIsOpen(false)}>
+            <StatusWordModal status={modalStatus.toString()}></StatusWordModal>
+          </Modal>
         </AppContext.Provider>
       </div>
     </>

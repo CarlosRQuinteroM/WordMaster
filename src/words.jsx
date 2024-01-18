@@ -1,12 +1,3 @@
-export const boardDefault = [
-  ["", "", "", "", ""],
-  ["", "", "", "", ""],
-  ["", "", "", "", ""],
-  ["", "", "", "", ""],
-  ["", "", "", "", ""],
-  ["", "", "", "", ""],
-];
-
 export function createBoard(rows, columns) {
   const board = [];
 
