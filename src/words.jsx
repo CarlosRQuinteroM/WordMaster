@@ -1,3 +1,5 @@
+import { DICTIONARY_API, RANDON_WORD_API } from "./utils";
+
 export function createBoard(rows, columns) {
   const board = [];
 
@@ -13,9 +15,7 @@ export function createBoard(rows, columns) {
 }
 export const getRandomWord = async (length) => {
   try {
-    const response = await fetch(
-      `https://random-word-api.herokuapp.com/word?length=${length}&lang=en`
-    );
+    const response = await fetch(`${RANDON_WORD_API}${length}&lang=en`);
     const data = await response.json();
     return data[0].toUpperCase();
   } catch (error) {
@@ -26,9 +26,7 @@ export const getRandomWord = async (length) => {
 
 export const isValidWord = async (word) => {
   try {
-    const response = await fetch(
-      `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`
-    );
+    const response = await fetch(`${DICTIONARY_API}${word}`);
     const data = await response.json();
     return response.ok && data.length > 0;
   } catch (error) {
